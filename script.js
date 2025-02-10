@@ -2105,6 +2105,8 @@ const websites = {
             "60986": "http://maps.google.com/maps?q=26.3807182+43.91421927+",
             "60987": "http://maps.google.com/maps?q=26.3507219+43.91159151+",
             "60988": "http://maps.google.com/maps?q=26.36846752+43.95957548+",
+            "80203": "https://maps.app.goo.gl/pMEEY1DH4MgmTZ3c7",
+            "66134": "https://maps.app.goo.gl/t33JtBWtMLbWnsce9",
             "60989": "https://www.google.com/maps?q=26.342990370608,43.9870027601046&shorturl=1",
             "60990": "http://maps.google.com/maps?q=26.41473675+43.92490169+",
             "60991": "http://maps.google.com/maps?q=26.33941673+44.04034833+",
