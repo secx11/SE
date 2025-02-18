@@ -92,3 +92,9 @@ button:hover {
         margin-bottom: 30px; /* زيادة الهامش أسفل الصورة */
     }
 }
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}

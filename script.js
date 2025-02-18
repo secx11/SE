@@ -15,34 +15,6 @@ const websites = {
             "14": "https://maps.app.goo.gl/9trYyVBXfHEnZwab8",
             "15": "http://maps.google.com/maps?q=26.36625075+43.93784535+",
             "16": "https://maps.app.goo.gl/D57yNLgPkQNCHJd1A",
-    "30031":"https://maps.app.goo.gl/Qh6vevdWzfBmXpKn6?g_st=com.google.maps.preview.copy",
-"75927":"https://maps.app.goo.gl/hGEpM1cEuDZaDVfi7?g_st=com.google.maps.preview.copy",
-"80049":"https://maps.app.goo.gl/2UbD9oqjmLc3TdSP8?g_st=com.google.maps.preview.copy",
-"75927":"https://maps.app.goo.gl/xoRJWbpTkSZkuP8P9?g_st=com.google.maps.preview.copy",
-"83525":"https://maps.app.goo.gl/soaZbwSJ7dmPR73L7?g_st=com.google.maps.preview.copy",
-"83524":"https://maps.app.goo.gl/sgVNGfHnzEcRuHW7A?g_st=com.google.maps.preview.copy",
-"83523":"https://maps.app.goo.gl/9efGq5VcunNn7SUS9?g_st=com.google.maps.preview.copy",
-"83523":"https://maps.app.goo.gl/dzoxwC3HNoH3xfPM6?g_st=com.google.maps.preview.copy",
-"80273":"https://maps.app.goo.gl/bTKrQBgn6BLuJeXY7?g_st=com.google.maps.preview.copy",
-"29451":"https://maps.app.goo.gl/LhCDNLCkugtfSZcm8?g_st=com.google.maps.preview.copy",
-"29455":"https://maps.app.goo.gl/LhCDNLCkugtfSZcm8?g_st=com.google.maps.preview.copy",
-"29454":"https://maps.app.goo.gl/LhCDNLCkugtfSZcm8?g_st=com.google.maps.preview.copy",
-"79877":"https://maps.app.goo.gl/EDkft5kLGCM229696?g_st=com.google.maps.preview.copy",
-"61113":"https://maps.app.goo.gl/4BSauXS8JukcjVDN7?g_st=com.google.maps.preview.copy",
-"83372":"https://maps.app.goo.gl/qn29qJ2ZrajZSiXa9?g_st=com.google.maps.preview.copy",
-"83373":"https://maps.app.goo.gl/rBW1iU6xs5mFT3X7A?g_st=com.google.maps.preview.copy",
-"83374":"https://maps.app.goo.gl/4YZQeTw3ZpaiDqRS6?g_st=com.google.maps.preview.copy",
-"83501":"https://maps.app.goo.gl/wZ79Fcm2aYwBrieCA?g_st=com.google.maps.preview.copy",
-"82046":"https://maps.app.goo.gl/Lyig3ie6qMAebT6z8?g_st=com.google.maps.preview.copy",
-"AF3-19-12":"https://maps.app.goo.gl/Nvm3fXr7Qms2zW2V8",
-"AF3-19-16":"https://maps.app.goo.gl/tptbsS9QAXrkPVZT6",
-"AF3-21":"https://maps.app.goo.gl/YYrZnKsvT16Mp6LW9",
-"AF3-21A-9":"https://maps.app.goo.gl/giS3mzfBiVajdfaW9",
-"AF3-23-20A-5":"https://maps.app.goo.gl/HNusqP6wW6VZQTLi6",
-"AF3-23-4":"https://maps.app.goo.gl/LjfB8tsmUZKvXMhS9",
-"AF3-26-12":"https://maps.app.goo.gl/zvfgJsuR7oajvmFAA",
-"AF3-29-12A-2":"https://maps.app.goo.gl/Jdrgze85DEFkTgv26",
-"AF3-29-17":"https://maps.app.goo.gl/ygpws5kzZgjGsCeJ9",
   "80203": "https://maps.app.goo.gl/srt47M1CnTTtZenMA?g_st=com.google.maps.preview.copy",
   "66134": "https://maps.app.goo.gl/kq2XySDuBhHbaeFUA?g_st=com.google.maps.preview.copy",
             "17": "https://maps.app.goo.gl/CtFXmkxwPSShKBNN6",
@@ -11473,26 +11445,61 @@ const websites = {
             "84100": "https://maps.app.goo.gl/chqqyd9iTN8T5CEp6",
             "84101": "https://maps.app.goo.gl/DCUAERMok5dpimkb9",
             "84102": "https://maps.app.goo.gl/SQb4vg2Khj6ptcpK6",
-            "84103": "https://maps.app.goo.gl/JbYisvAgfndnqAhT8",      "4": "https://maps.app.goo.gl/tvb3Qo9mejdzm3Eb8",
+            "84103": "https://maps.app.goo.gl/JbYisvAgfndnqAhT8",      "AF3-10-10": "https://maps.app.goo.gl/tvb3Qo9mejdzm3Eb8",
 
 };
 
-
+// دالة البحث
 function searchWebsite() {
-    const searchInput = document.getElementById("searchInput").value.trim().toLowerCase();
+    const searchInput = document.getElementById("searchInput").value.trim().toLowerCase().replace(/-/g, "");
     const resultsContainer = document.getElementById("resultsContainer");
 
     resultsContainer.innerHTML = "";
 
-    const websiteURL = websites[searchInput];
+    let found = false;
+    for (const key in websites) {
+        if (key.toLowerCase().replace(/-/g, "") === searchInput) {
+            const linkElement = document.createElement("a");
+            linkElement.href = websites[key];
+            linkElement.textContent = "انقر هنا للانتقال إلى الموقع";
+            linkElement.target = "_blank";
+            resultsContainer.appendChild(linkElement);
+            found = true;
+            break;
+        }
+    }
 
-    if (websiteURL) {
-        const linkElement = document.createElement("a");
-        linkElement.href = websiteURL;
-        linkElement.textContent = "انقر هنا للانتقال إلى الموقع";
-        linkElement.target = "_blank"; // لفتح الرابط في نافذة جديدة
-        resultsContainer.appendChild(linkElement);
-    } else {
+    if (!found) {
         resultsContainer.textContent = "لم يتم العثور على الموقع المطلوب.";
     }
 }
+
+// دالة البحث بالصوت
+function startVoiceSearch() {
+    if (!("SpeechRecognition" in window || "webkitSpeechRecognition" in window)) {
+        alert("عذرًا، المتصفح الخاص بك لا يدعم ميزة البحث بالصوت.");
+        return;
+    }
+
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = "ar"; // تعيين اللغة العربية
+    recognition.interimResults = false; // نتائج نهائية فقط
+    recognition.maxAlternatives = 1; // نتيجة واحدة فقط
+
+    recognition.start(); // بدء التعرف على الكلام
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript.trim().toLowerCase();
+        document.getElementById("searchInput").value = transcript; // تعبئة حقل البحث بالنص
+        searchWebsite(); // تنفيذ البحث تلقائيًا
+    };
+
+    recognition.onerror = (event) => {
+        console.error("حدث خطأ أثناء التعرف على الكلام:", event.error);
+        alert("حدث خطأ أثناء التعرف على الكلام. يرجى المحاولة مرة أخرى.");
+    };
+}
+// البحث التلقائي عند الكتابة
+document.getElementById("searchInput").addEventListener("input", function() {
+    searchWebsite();
+});
