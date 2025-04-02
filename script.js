@@ -12112,51 +12112,87 @@ const websites = {
 "UJ7-212":"https://maps.app.goo.gl/yxzv2ug2PgsNFnjN6?g_st=com.google.maps.preview.copy",
 "UJ7-96":"https://maps.app.goo.gl/2T9Xw6nbnP6QQ1A8A?g_st=com.google.maps.preview.copy",
 "UJ8-2":"https://maps.app.goo.gl/BQeEwSCzziU3e1ww9?g_st=com.google.maps.preview.copy",
- 
-};
 
-// البحث التلقائي عند الكتابة
-document.getElementById("searchInput").addEventListener("input", function() {
-    const searchTerm = this.value.trim();
-    const resultsContainer = document.getElementById("resultsContainer");
-    resultsContainer.innerHTML = "";
+  };
 
-    if (!searchTerm) return;
+// عناصر DOM
+const searchInput = document.getElementById("searchInput");
+const resultsContainer = document.getElementById("resultsContainer");
+const searchButton = document.getElementById("searchButton");
 
-    const matchingKeys = Object.keys(websites).filter(key => 
-        key.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+// تهيئة البحث بالصوت إذا كان الزر موجوداً
+if (document.getElementById("voiceSearchButton")) {
+    document.getElementById("voiceSearchButton").addEventListener("click", startVoiceSearch);
+}
 
-    if (matchingKeys.length > 0) {
-        matchingKeys.forEach(key => {
-            const link = document.createElement("a");
-            link.href = websites[key];
-            link.textContent = الموقع ${key}: انقر هنا;
-            link.target = "_blank";
-            link.style.display = "block";
-            link.style.margin = "5px 0";
-            link.style.color = "#f06d06";
-            resultsContainer.appendChild(link);
-        });
-    } else {
-        resultsContainer.textContent = "لم يتم العثور على الموقع المطلوب.";
-        resultsContainer.style.color = "#ff0000";
+// البحث التلقائي مع تأخير (debounce)
+let searchTimer;
+searchInput.addEventListener("input", function() {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+        performSearch(this.value.trim());
+    }, 300); // تأخير 300 مللي ثانية
+});
+
+// ضغط Enter في حقل البحث
+searchInput.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        performSearch(this.value.trim());
     }
 });
 
-// دالة البحث العادي
-function searchWebsite() {
-    const searchInput = document.getElementById("searchInput");
-    searchInput.dispatchEvent(new Event("input"));
-}
+// زر البحث
+searchButton.addEventListener("click", function() {
+    performSearch(searchInput.value.trim());
+});
 
-// دالة البحث بالصوت
-function startVoiceSearch() {
-    if (!("webkitSpeechRecognition" in window)) {
-        alert("عذرًا، هذه الميزة غير مدعومة في متصفحك. يرجى استخدام Chrome أو Edge.");
+function performSearch(searchTerm) {
+    resultsContainer.innerHTML = "";
+
+    if (!searchTerm) {
         return;
     }
 
-    const recognition = new webkitSpeechRecognition();
-    recognition.lang = "ar-SA";
-    recognition.inter
+    // البحث مع عدم التحسس لحالة الأحرف
+    const foundKey = Object.keys(websites).find(key => 
+        key.toLowerCase() === searchTerm.toLowerCase()
+    );
+
+    if (foundKey) {
+        const linkElement = document.createElement("a");
+        linkElement.href = websites[foundKey];
+        linkElement.textContent = "انقر هنا للانتقال إلى الموقع";
+        linkElement.target = "_blank";
+        linkElement.className = "result-link"; // لإضافة أنماط CSS لاحقاً
+        resultsContainer.appendChild(linkElement);
+    } else {
+        resultsContainer.textContent = "لم يتم العثور على الموقع المطلوب.";
+        resultsContainer.className = "error-message"; // لإضافة أنماط CSS لاحقاً
+    }
+}
+
+// البحث بالصوت
+function startVoiceSearch() {
+    if (!("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) {
+        alert("عذرًا، المتصفح الخاص بك لا يدعم ميزة البحث بالصوت.");
+        return;
+    }
+
+    const recognition = new (window.webkitSpeechRecognition || window.SpeechRecognition)();
+    recognition.lang = "ar-SA"; // العربية - السعودية
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.start();
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript.trim();
+        searchInput.value = transcript;
+        performSearch(transcript);
+    };
+
+    recognition.onerror = (event) => {
+        console.error("خطأ في التعرف على الصوت:", event.error);
+        alert(حدث خطأ: ${event.error});
+    };
+}
