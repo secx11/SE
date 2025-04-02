@@ -12112,39 +12112,61 @@ const websites = {
 "UJ7-212":"https://maps.app.goo.gl/yxzv2ug2PgsNFnjN6?g_st=com.google.maps.preview.copy",
 "UJ7-96":"https://maps.app.goo.gl/2T9Xw6nbnP6QQ1A8A?g_st=com.google.maps.preview.copy",
 "UJ8-2":"https://maps.app.goo.gl/BQeEwSCzziU3e1ww9?g_st=com.google.maps.preview.copy",
- 
-// يمكنك إضافة المزيد من المواقع هنا بأي مفتاح (أرقام أو أحرف)
-    "test": "https://example.com",
-    "abc123": "https://google.com"
+
 };
 
-// البحث التلقائي عند الكتابة
-document.getElementById("searchInput").addEventListener("input", function() {
-    const searchTerm = this.value.trim().toLowerCase();
+
+// دالة البحث
+function searchWebsite() {
+    const searchInput = document.getElementById("searchInput").value.trim().toLowerCase().replace(/-/g, "");
     const resultsContainer = document.getElementById("resultsContainer");
+
     resultsContainer.innerHTML = "";
 
-    if (searchTerm === "") {
-        return; // لا تفعل شيئًا إذا كان الحقل فارغًا
+    let found = false;
+    for (const key in websites) {
+        if (key.toLowerCase().replace(/-/g, "") === searchInput) {
+            const linkElement = document.createElement("a");
+            linkElement.href = websites[key];
+            linkElement.textContent = "انقر هنا للانتقال إلى الموقع";
+            linkElement.target = "_blank";
+            resultsContainer.appendChild(linkElement);
+            found = true;
+            break;
+        }
     }
 
-    const websiteURL = websites[searchTerm];
-
-    if (websiteURL) {
-        const linkElement = document.createElement("a");
-        linkElement.href = websiteURL;
-        linkElement.textContent = "انقر هنا للانتقال إلى الموقع";
-        linkElement.target = "_blank";
-        resultsContainer.appendChild(linkElement);
-    } else {
+    if (!found) {
         resultsContainer.textContent = "لم يتم العثور على الموقع المطلوب.";
     }
-});
-
-// الاحتفاظ بوظيفة البحث الزر لاستخدامها إذا لزم الأمر
-function searchWebsite() {
-    const searchInput = document.getElementById("searchInput");
-    // إطلاق حدث الإدخال يدويًا
-    const event = new Event("input");
-    searchInput.dispatchEvent(event);
 }
+
+// دالة البحث بالصوت
+function startVoiceSearch() {
+    if (!("SpeechRecognition" in window || "webkitSpeechRecognition" in window)) {
+        alert("عذرًا، المتصفح الخاص بك لا يدعم ميزة البحث بالصوت.");
+        return;
+    }
+
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = "ar"; // تعيين اللغة العربية
+    recognition.interimResults = false; // نتائج نهائية فقط
+    recognition.maxAlternatives = 1; // نتيجة واحدة فقط
+
+    recognition.start(); // بدء التعرف على الكلام
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript.trim().toLowerCase();
+        document.getElementById("searchInput").value = transcript; // تعبئة حقل البحث بالنص
+        searchWebsite(); // تنفيذ البحث تلقائيًا
+    };
+
+    recognition.onerror = (event) => {
+        console.error("حدث خطأ أثناء التعرف على الكلام:", event.error);
+        alert("حدث خطأ أثناء التعرف على الكلام. يرجى المحاولة مرة أخرى.");
+    };
+}
+// البحث التلقائي عند الكتابة
+document.getElementById("searchInput").addEventListener("input", function() {
+    searchWebsite();
+});
