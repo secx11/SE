@@ -117,3 +117,26 @@ button:hover {
     color: #d9534f;
     padding: 10px;
 }
+.suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none; /* مخفية افتراضيًا */
+}
+
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+    text-align: right;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}

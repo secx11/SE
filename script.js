@@ -12118,19 +12118,14 @@ const websites = {
 // عناصر DOM
 const searchInput = document.getElementById("searchInput");
 const resultsContainer = document.getElementById("resultsContainer");
-const searchButton = document.getElementById("searchButton");
-
-// تهيئة البحث بالصوت إذا كان الزر موجوداً
-if (document.getElementById("voiceSearchButton")) {
-    document.getElementById("voiceSearchButton").addEventListener("click", startVoiceSearch);
-}
+const suggestionsContainer = document.getElementById("suggestions");
 
 // البحث التلقائي مع تأخير (debounce)
 let searchTimer;
 searchInput.addEventListener("input", function() {
     clearTimeout(searchTimer);
     searchTimer = setTimeout(() => {
-        performSearch(this.value.trim());
+        showSuggestions(this.value.trim());
     }, 300); // تأخير 300 مللي ثانية
 });
 
@@ -12138,13 +12133,45 @@ searchInput.addEventListener("input", function() {
 searchInput.addEventListener("keypress", function(e) {
     if (e.key === "Enter") {
         performSearch(this.value.trim());
+        suggestionsContainer.style.display = "none"; // إخفاء الاقتراحات
     }
 });
 
-// زر البحث
-searchButton.addEventListener("click", function() {
-    performSearch(searchInput.value.trim());
+// إخفاء الاقتراحات عند النقر خارج الحقل
+document.addEventListener("click", function(e) {
+    if (!searchInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+        suggestionsContainer.style.display = "none";
+    }
 });
+
+function showSuggestions(searchTerm) {
+    suggestionsContainer.innerHTML = "";
+    suggestionsContainer.style.display = "none";
+
+    if (!searchTerm) {
+        return;
+    }
+
+    // البحث عن المفاتيح المطابقة
+    const matchingKeys = Object.keys(websites).filter(key =>
+        key.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    if (matchingKeys.length > 0) {
+        matchingKeys.forEach(key => {
+            const suggestionItem = document.createElement("div");
+            suggestionItem.textContent = key;
+            suggestionItem.className = "suggestion-item";
+            suggestionItem.addEventListener("click", () => {
+                searchInput.value = key;
+                performSearch(key);
+                suggestionsContainer.style.display = "none";
+            });
+            suggestionsContainer.appendChild(suggestionItem);
+        });
+        suggestionsContainer.style.display = "block";
+    }
+}
 
 function performSearch(searchTerm) {
     resultsContainer.innerHTML = "";
@@ -12163,36 +12190,16 @@ function performSearch(searchTerm) {
         linkElement.href = websites[foundKey];
         linkElement.textContent = "انقر هنا للانتقال إلى الموقع";
         linkElement.target = "_blank";
-        linkElement.className = "result-link"; // لإضافة أنماط CSS لاحقاً
+        linkElement.className = "result-link";
         resultsContainer.appendChild(linkElement);
     } else {
         resultsContainer.textContent = "لم يتم العثور على الموقع المطلوب.";
-        resultsContainer.className = "error-message"; // لإضافة أنماط CSS لاحقاً
+        resultsContainer.className = "error-message";
     }
 }
 
-// البحث بالصوت
-function startVoiceSearch() {
-    if (!("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) {
-        alert("عذرًا، المتصفح الخاص بك لا يدعم ميزة البحث بالصوت.");
-        return;
-    }
-
-    const recognition = new (window.webkitSpeechRecognition || window.SpeechRecognition)();
-    recognition.lang = "ar-SA"; // العربية - السعودية
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-
-    recognition.start();
-
-    recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript.trim();
-        searchInput.value = transcript;
-        performSearch(transcript);
-    };
-
-    recognition.onerror = (event) => {
-        console.error("خطأ في التعرف على الصوت:", event.error);
-        alert(حدث خطأ: ${event.error});
-    };
+// زر البحث (إذا كنت تستخدمه)
+function searchWebsite() {
+    performSearch(searchInput.value.trim());
+    suggestionsContainer.style.display = "none";
 }
