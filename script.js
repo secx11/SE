@@ -240,6 +240,7 @@ const websites = {
 "175":"http://maps.google.com/maps?q=26.33897629+43.97202136+",
 "176":"http://maps.google.com/maps?q=26.34185665+43.97197054+",
 "177":"http://maps.google.com/maps?q=26.34080399+43.97340043+",
+"178":"http://maps.google.com/maps?q=26.33841589+43.97468356+",
 "179":"http://maps.google.com/maps?q=26.33714117+43.97114761+",
 "180":"http://maps.google.com/maps?q=26.33485914+43.97364035+",
 "181":"http://maps.google.com/maps?q=26.33510959+43.98467454+",
@@ -12134,124 +12135,63 @@ const websites = {
 "UJ8-2":"https://maps.app.goo.gl/BQeEwSCzziU3e1ww9?g_st=com.google.maps.preview.copy",
 
   };
+
 // عناصر DOM
 const searchInput = document.getElementById("searchInput");
 const resultsContainer = document.getElementById("resultsContainer");
 const suggestionsContainer = document.getElementById("suggestions");
-}
-});
-
-    // عند الكتابة في حقل البحث
-    searchInput.addEventListener('input', function() {
-      const query = this.value.toLowerCase();
-      suggestionsBox.innerHTML = '';
-      if (query) {
-        const matches = Object.keys(locations).filter(key => key.toLowerCase().includes(query));
-        if (matches.length > 0) {
-          matches.forEach(key => {
-            const suggestion = document.createElement('div');
-            suggestion.textContent = key;
-            
-            suggestion.onclick = () => {
-              window.open(locations[key], '_blank'); // فتح الرابط في تبويب جديد
-              searchInput.value = key;
-             suggestionsBox.classList.remove('active');
-            };
-            suggestionsBox.appendChild(suggestion);
-          });
-          suggestionsBox.classList.add('active');
-        } else {
-          suggestionsBox.classList.remove('active');
-        }
-      } else {
-        suggestionsBox.classList.remove('active');
-      }
-    });
-    // عند الكتابة
-searchInput.addEventListener('input', function() {
-    const inputText = this.value.trim().toLowerCase();
-    const suggestions = Object.keys(sitesDatabase)
-        .filter(name => name.toLowerCase().includes(inputText))
-        .slice(0, 6); // 6 مقترحات فقط
-    
-    showSuggestions(suggestions);
-});
-
-function showSuggestions(items) {
-    if (items.length === 0 || !searchInput.value) {
-        suggestionsBox.style.display = 'none';
-        return;
-    }
-
-    suggestionsBox.innerHTML = `
-        <ul>
-            ${items.map(item => `<li>${item}</li>`).join('')}
-        </ul>
-    `;
-    
-    suggestionsBox.style.display = 'block';
 
 // البحث التلقائي مع تأخير (debounce)
 let searchTimer;
 searchInput.addEventListener("input", function() {
-  clearTimeout(searchTimer);
-  searchTimer = setTimeout(() => {
-    showSuggestions(this.value.trim());
-  }, 300);
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+        showSuggestions(this.value.trim());
+    }, 300); // تأخير 300 مللي ثانية
 });
-
-// ضغط Enter في حقل البحث
-searchInput.addEventListener("keypress", function(e) {
-  if (e.key === "Enter") {
-    performSearch(this.value.trim());
-    suggestionsContainer.style.display = "none";
-  }
-});
-
 // إخفاء الاقتراحات عند النقر خارج الحقل
-document.addEventListener("click", (e) => {
-    if (e.target !== searchInput && !suggestionsContainer.contains(e.target)) {
-      suggestionsContainer.style.display = "none";
+document.addEventListener("click", function(e) {
+    if (!searchInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+        suggestionsContainer.style.display = "none";
     }
-  });
+});
 
 function showSuggestions(searchTerm) {
-  while (suggestionsContainer.firstChild) {
-    suggestionsContainer.removeChild(suggestionsContainer.firstChild);
-  }
-  suggestionsContainer.style.display = "none";
+    suggestionsContainer.innerHTML = "";
+    suggestionsContainer.style.display = "none";
 
-  if (!searchTerm || Object.keys(websites).length === 0) {
-    return;
-  }
+    if (!searchTerm) {
+        return;
+    }
 
-  const matchingKeys = Object.keys(websites).filter(key =>
-    key.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+    // البحث عن المفاتيح المطابقة
+    const matchingKeys = Object.keys(websites).filter(key =>
+        key.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
-  if (matchingKeys.length > 0) {
-    matchingKeys.forEach(key => {
-      const suggestionItem = document.createElement("div");
-      suggestionItem.textContent = key; // يمكنك إضافة websites[key].desc إذا استخدمت هيكل مع وصف
-      suggestionItem.className = "suggestion-item";
-      suggestionItem.addEventListener("click", () => {
-        searchInput.value = key;
-        performSearch(key);
-        suggestionsContainer.style.display = "none";
-      });
-      suggestionsContainer.appendChild(suggestionItem);
-    });
-    suggestionsContainer.style.display = "block";
-  }
+    if (matchingKeys.length > 0) {
+        matchingKeys.forEach(key => {
+            const suggestionItem = document.createElement("div");
+            suggestionItem.textContent = key;
+            suggestionItem.className = "suggestion-item";
+            suggestionItem.addEventListener("click", () => {
+                searchInput.value = key;
+                performSearch(key);
+                suggestionsContainer.style.display = "none";
+            });
+            suggestionsContainer.appendChild(suggestionItem);
+        });
+        suggestionsContainer.style.display = "block";
+    }
 }
 
 function performSearch(searchTerm) {
-  resultsContainer.innerHTML = "";
+    resultsContainer.innerHTML = "";
 
-  if (!searchTerm || Object.keys(websites).length === 0) {
-    return;
-  }
-    
+    if (!searchTerm) {
+        return;
+    }
+
     // البحث مع عدم التحسس لحالة الأحرف
     const foundKey = Object.keys(websites).find(key => 
         key.toLowerCase() === searchTerm.toLowerCase()
@@ -12269,8 +12209,15 @@ function performSearch(searchTerm) {
         resultsContainer.className = "error-message";
     }
 }
+
 // زر البحث (إذا كنت تستخدمه)
 function searchWebsite() {
     performSearch(searchInput.value.trim());
     suggestionsContainer.style.display = "none";
 }
+
+// يمكنك إضافة تفاعلات إضافية هنا
+document.querySelector('.sec-logo-link').addEventListener('click', function() {
+    console.log('تم النقر على شعار SEC');
+    // يمكنك إضافة أكواد إضافية هنا
+});
