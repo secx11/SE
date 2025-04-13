@@ -41,11 +41,12 @@
     <h1>ابحث عن موقعك المفضل</h1>
     <div class="search-container">
       <input type="text" id="searchInput" placeholder="أدخل اسم الموقع...">
-      <button onclick="search()">بحث</button>
+      <div class="suggestions" id="suggestions"></div>
+      <button onclick="searchWebsite()">ابحث</button>
     </div>
-    <div class="suggestions" id="suggestions"></div>
+    <div id="resultsContainer"></div>
   </section>
-
+<div id="map"></div>
   <!-- الفوتر -->
   <footer>
     <p>تصميم وتطوير© فهد الفهيد| 2025</p>
