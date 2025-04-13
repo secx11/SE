@@ -1,5 +1,4 @@
-// بيانات روابط Google Maps
-    const locations = {
+const websites = { 
 "1":"https://maps.app.goo.gl/KiKgAYwhPcow5itx7",
 "2":"https://maps.app.goo.gl/i95w4BcthGLmZBpLA",
 "75611":"https://maps.google.com?q=26.4656070,43.6506730&entry=gps&lucs=,94224825,94227247,94227248,94231188,47071704,47069508,94218641,94203019,47084304,94208458,94208447&g_st=com.google.maps.preview.copy",
@@ -241,7 +240,6 @@
 "175":"http://maps.google.com/maps?q=26.33897629+43.97202136+",
 "176":"http://maps.google.com/maps?q=26.34185665+43.97197054+",
 "177":"http://maps.google.com/maps?q=26.34080399+43.97340043+",
-"178":"http://maps.google.com/maps?q=26.33841589+43.97468356+",
 "179":"http://maps.google.com/maps?q=26.33714117+43.97114761+",
 "180":"http://maps.google.com/maps?q=26.33485914+43.97364035+",
 "181":"http://maps.google.com/maps?q=26.33510959+43.98467454+",
@@ -12136,8 +12134,12 @@
 "UJ8-2":"https://maps.app.goo.gl/BQeEwSCzziU3e1ww9?g_st=com.google.maps.preview.copy",
 
   };
- const searchInput = document.getElementById('searchInput');
-    const suggestionsBox = document.getElementById('suggestions');
+// عناصر DOM
+const searchInput = document.getElementById("searchInput");
+const resultsContainer = document.getElementById("resultsContainer");
+const suggestionsContainer = document.getElementById("suggestions");
+}
+});
 
     // عند الكتابة في حقل البحث
     searchInput.addEventListener('input', function() {
@@ -12267,10 +12269,8 @@ function performSearch(searchTerm) {
         resultsContainer.className = "error-message";
     }
 }
-
-// This function triggers a search operation based on the current value of the search input field.
-// It hides the suggestions container after performing the search.
+// زر البحث (إذا كنت تستخدمه)
 function searchWebsite() {
-  performSearch(searchInput.value.trim());
-  suggestionsContainer.style.display = "none";
+    performSearch(searchInput.value.trim());
+    suggestionsContainer.style.display = "none";
 }
