@@ -1,179 +1,235 @@
 /* إعادة تعيين القيم الافتراضية */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* الألوان الأساسية */
 :root {
-    --primary: #003366;
-    --secondary: #CC7722;
+  --primary: #003366;
+  --secondary: #CC7722;
 }
 
-    /* تنسيق الخلفية */
-    body {
-      background-image: url('https://www2.0zz0.com/2025/04/10/14/831748902.jpeg');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed; /* الخلفية ثابتة عند التمرير */
-      font-family: Arial, sans-serif;
-      direction: rtl; /* من اليمين لليسار */
-      color: #333;
-    }
-
-    /* تنسيق الهيدر */
-    header {
-      background-color: rgba(0, 0, 0, 0.7); /* خلفية شبه شفافة */
-      padding: 15px 30px;
-      display: flex; /* Flexbox للترتيب */
-      justify-content: space-between;
-      align-items: center;
-      position: sticky; /* يبقى في الأعلى عند التمرير */
-      top: 0;
-      z-index: 100;
-    }
-
-    /* تنسيق الشعار */
-    .logo img {
-      height: 60px; /* حجم الشعار */
-    }
-
-    /* تنسيق روابط التنقل */
-    .nav-links {
-      display: flex;
-      gap: 20px;
-    }
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-size: 16px;
-    }
-    .nav-links a:hover {
-      color: #3498db;
-    }
-
-    /* تنسيق قسم البحث */
-    section.search-section {
-      
-       /* خلفية بيضاء شبه شفافة */
-      width: 100%;
-      
-      max-width: 500px;
-      margin: 10px auto; /* توسيط القسم */
-      padding: 30px;
-      border-radius: 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    /* تنسيق عنوان القسم */
-    section.search-section h1 {
-      font-size: 20px;
-      margin-bottom: 5px;
-      color: #2c3e50;
-    }
-
-    /* تنسيق حقل البحث */
-    .search-container {
-    padding: 15px 15px;
-    display: flex;
-    width: 90%;
-    max-width: 700px;
-    border-radius: 30px;
-    font-size: 1rem;
-    outline: none;
-    }
-    .search-container input {
-    padding: 15px 20px;
-      display: flex;
-    flex-direction: column;
-    width: 90%;
-    max-width: 500px;
-    border: 2px solid var(--primary);
-    border-radius: 30px;
-    font-size: 1rem;
-    background: rgba(255,255,255,0.7);
-    outline: none;
-    transition: all 0.3s;
-    }
-    .search-container button {
-      background: linear-gradient(to right, var(--primary), var(--secondary));
-    color: white;
-   
-    border: none;
-    padding: 12px 20px;
-    border-radius: 30px;
-    margin-right: px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s;
-    
-    margin:  1 auto;
-    }
-    .search-container button:hover {
-      opacity: 0.9;
-    transform: translateY(-2px);
-    }
-
-    /* تنسيق قائمة المقترحات */
-    .suggestions {
-      width: 45%;
-      max-width: 500px;
-      border: 2px solid var(--primary);
-      background-color: white;
-      background: rgba(255,255,255,0.7);
-      border-radius: 15px;
-      margin-right: -85px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      display: none; /* مخفية افتراضيًا */
-    }
-    .suggestions.active {
-      display: block; /* تظهر عند الكتابة */
-    }
-    .suggestions div {
-      padding: 5px;
-      border-radius: 25px;
-      cursor: pointer;
-    }
-    .suggestions div:hover {
-      background-color: rgba(227, 132, 38, 0.58);
-    }
-.suggestions::-webkit-scrollbar {
-    width: 6px;
+/* تنسيق الخلفية */
+body {
+  background-image: url('https://www2.0zz0.com/2025/04/10/14/831748902.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-color: #f0f0f0; /* لون احتياطي */
+  font-family: Arial, sans-serif;
+  direction: rtl;
+  color: #333;
 }
 
-.suggestions::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 3px;
+/* تنسيق الهيدر */
+header {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
+/* تنسيق الشعار */
+.logo img {
+  height: 60px;
+}
 
-    /* تنسيق الفوتر */
-    footer {
-      background-color: rgba(0, 0, 0, 0.7);
-      color: white;
-      text-align: center;
-      padding: 15px;
-      position: Fixed;
-      bottom: 0;
-      width: 100%;
-    }
+/* تنسيق روابط التنقل */
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  min-width: 200px;
+  padding-left: 20px;
+}
+
+.nav-links a {
+  color: white !important;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 5px 10px;
+  text-align: center;
+  width: 100%;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a:visited,
+.nav-links a:active {
+  color: white !important;
+}
+
+/* تنسيق المقدمة */
+.intro {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  text-align: center;
+  font-size: 1rem;
+  color: #2c3e50;
+}
+
+/* تنسيق قسم البحث */
+section.container {
+  width: 90%;
+  max-width: 700px;
+  margin: 100px auto 50px;
+  padding: 30px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* تنسيق عنوان القسم */
+section.container h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+/* تنسيق حقل البحث ونتائج البحث */
+.search-box {
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid var(--primary);
+  border-radius: 30px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  outline: none;
+  transition: all 0.3s;
+}
+
+#resultsContainer {
+  display: flex;
+  align-items: center;
+}
+
+/* تنسيق النتائج */
+.result-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.result-link:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+/* تنسيق قائمة الاقتراحات */
+.suggestions {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: calc(100% - 150px);
+  margin-top: 2px;
+  border: 2px solid var(--primary);
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: none;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 10;
+  padding: 5px 0;
+}
+
+.suggestions.active {
+  display: block !important;
+}
+
+.suggestions .suggestion-item {
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.suggestions .suggestion-item:hover {
+  background-color: rgba(227, 132, 38, 0.46);
+}
+
+.error-message {
+  color: #d63031;
+  font-size: 1rem;
+}
+
+/* تنسيق الفوتر */
+footer {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  text-align: center;
+  padding: 15px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+/* استجابة للشاشات الصغيرة */
 @media (max-width: 600px) {
-  .search-container {
+  header {
     flex-direction: column;
+    align-items: flex-end;
+    padding: 10px 20px;
   }
-  .search-container input,
-  .search-container button {
+  .logo img {
+    height: 40px;
+  }
+  .nav-links {
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    min-width: 150px;
+  }
+  .nav-links a {
+    font-size: 14px;
+    padding: 4px 8px;
+  }
+  .intro {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+  .search-box {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-box input {
+    padding: 10px;
+    font-size: 14px;
+  }
+  #resultsContainer {
+    margin-top: 10px;
+  }
+  .result-link {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+  .suggestions {
     width: 100%;
   }
-}
-.nav-links a {
-  transition: color 0.3s ease;
-}
-section.search-section {
-  animation: fadeIn 1s ease-in;
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
 }
