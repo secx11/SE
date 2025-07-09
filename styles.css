@@ -1,0 +1,417 @@
+/* إعادة تعيين القيم الافتراضية */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* الألوان الأساسية */
+:root {
+  --primary: #003366;
+  --secondary: #CC7722;
+}
+
+/* تنسيق الخلفية */
+body {
+  background-image: url('https://www2.0zz0.com/2025/04/10/14/831748902.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-color: #f0f0f0; /* لون احتياطي */
+  font-family: Arial, sans-serif;
+  direction: rtl;
+  color: #333;
+}
+
+/* تنسيق الهيدر */
+header {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* تنسيق الشعار */
+header img {
+  height: 48px;
+}
+
+/* تنسيق روابط التنقل */
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: center;
+  min-width: 120px;
+  padding-left: 10px;
+}
+
+.nav-links a {
+  color: white !important;
+  text-decoration: none;
+  font-size: 13px;
+  padding: 3px 7px;
+  width: 100%;
+  min-width: unset;
+  border-radius: 12px;
+  transition: color 0.3s, background 0.3s, box-shadow 0.3s;
+}
+
+/* إبراز قسم التشغيل كمربع زر خفيف */
+.nav-links a.operation-link {
+  background: transparent;
+  color: white !important;
+  font-weight: bold;
+  border: none;
+  box-shadow: none;
+  border-radius: 18px;
+  padding: 5px 10px;
+  margin-top: 2px;
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s, border 0.3s;
+}
+.nav-links a.operation-link:hover,
+.nav-links a.operation-link:focus {
+  background: var(--secondary);
+  color: #fff !important;
+  border: none;
+  box-shadow: 0 2px 8px rgba(204,119,34,0.13);
+  padding: 5px 18px;
+}
+
+/* تنسيق أيقونة القلم */
+.feedback-icon {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.feedback-icon:hover {
+  transform: scale(1.1);
+}
+
+/* تنسيق زر الملاحظات */
+.feedback-btn {
+  margin-top: 25px;
+  padding: 10px 25px;
+  background: linear-gradient(to right, var(--secondary), var(--primary));
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: opacity 0.3s, transform 0.3s;
+}
+.feedback-btn:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+/* تنسيق المقدمة */
+.intro {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  text-align: center;
+  font-size: 1rem;
+  color: #2c3e50;
+}
+.intro h1 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: var(--primary);
+}
+
+/* تنسيق قسم البحث */
+section.container {
+  width: 90%;
+  max-width: 700px;
+  margin: 100px auto 50px;
+  padding: 30px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* تنسيق عنوان القسم */
+section.container h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+/* تنسيق حقل البحث ونتائج البحث */
+.search-box {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid var(--primary);
+  border-radius: 30px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  outline: none;
+  transition: all 0.3s;
+}
+
+#resultsContainer {
+  display: flex;
+  align-items: center;
+}
+
+/* تنسيق النتائج */
+.result-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.result-link:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+/* تنسيق قائمة الاقتراحات */
+.suggestions {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  width: 100%;
+  margin-top: 2px;
+  border: 2px solid var(--primary);
+  background-color: #f9f9f9;
+  border-radius: 0 0 15px 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: none;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 10;
+  padding: 10px 0;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  scrollbar-width: none;
+}
+.suggestions::-webkit-scrollbar {
+  display: none;
+}
+
+.suggestions.active {
+  display: block !important;
+}
+
+.suggestions .suggestion-item {
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.suggestions .suggestion-item:hover {
+  background-color: var(--secondary);
+  color: white;
+}
+
+.error-message {
+  color: #d63031;
+  font-size: 1rem;
+}
+
+/* تنسيق نموذج الملاحظات */
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.feedback-form label {
+  font-size: 1rem;
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.feedback-form input,
+.feedback-form textarea {
+  padding: 12px;
+  border: 2px solid var(--primary);
+  border-radius: 10px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  outline: none;
+  transition: all 0.3s;
+}
+
+.feedback-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.feedback-form button {
+  padding: 10px 25px;
+  background: linear-gradient(to right, var(--secondary), var(--primary));
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.feedback-form button:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+#feedbackMsg {
+  margin-top: 10px;
+  color: #27ae60;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* تنسيق الفوتر */
+footer {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  text-align: center;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+/* نافذة الملاحظات */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  right: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.4);
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  background: #fff;
+  padding: 30px 20px 20px 20px;
+  border-radius: 15px;
+  max-width: 400px;
+  width: 90%;
+  margin: auto;
+  position: relative;
+  text-align: right;
+}
+.close {
+  position: absolute;
+  left: 15px;
+  top: 10px;
+  font-size: 2rem;
+  color: var(--primary);
+  cursor: pointer;
+}
+#feedbackForm textarea {
+  width: 100%;
+  min-height: 80px;
+  border-radius: 10px;
+  border: 1.5px solid #ccc;
+  padding: 10px;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  resize: vertical;
+}
+#feedbackForm button[type="submit"] {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 22px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+#feedbackMsg {
+  margin-top: 10px;
+  color: #27ae60;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* استجابة للشاشات الصغيرة */
+@media (max-width: 600px) {
+  header {
+    align-items: flex-end;
+    padding: 6px 13px;
+  }
+  header img {
+    height: 50px;
+  }
+  .nav-links {
+    align-items: center;
+    gap: 4px;
+    margin-top: 6px;
+    min-width: 80px;
+  }
+  .nav-links a {
+    font-size: 12px;
+    padding: 2px 6px;
+  }
+  .intro {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+  .search-box {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-box input {
+    padding: 10px;
+    font-size: 14px;
+  }
+  #resultsContainer {
+    margin-top: 10px;
+  }
+  .result-link {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+  .suggestions {
+    width: 100%;
+  }
+  .modal-content {
+    padding: 15px 5px 10px 5px;
+    max-width: 95vw;
+  }
+  .feedback-form input,
+  .feedback-form textarea {
+    font-size: 14px;
+  }
+  .feedback-form button {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+  }
+}

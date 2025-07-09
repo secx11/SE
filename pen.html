@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إدارة كهرباء القصيم - تقديم الملاحظات والاقتراحات</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="شعار إدارة كهرباء القصيم">
+    <div class="nav-links">
+      <a href="index.html" class="operation-link">الصفحة الرئيسية</a>
+      <a href="operations.html" class="operation-link">قسم التشغيل</a>
+    </div>
+    <a href="feedback.html" class="feedback-icon" aria-label="تقديم ملاحظات و اقتراحات">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#fff"/>
+      </svg>
+    </a>
+  </header>
+  <main>
+    <section class="container">
+      <h1>تقديم الملاحظات والاقتراحات</h1>
+      <div class="feedback-form">
+        <label for="name">الاسم (اختياري):</label>
+        <input type="text" id="name" placeholder="أدخل اسمك">
+        <label for="feedback">ملاحظاتك أو اقتراحاتك:</label>
+        <textarea id="feedback" rows="5" placeholder="اكتب ملاحظاتك هنا..." aria-label="اكتب ملاحظاتك أو اقتراحاتك"></textarea>
+        <button id="submitFeedback" type="submit" aria-label="إرسال الملاحظات">إرسال</button>
+      </div>
+      <div id="feedbackMsg"></div>
+    </section>
+  </main>
+  <footer>
+    <p>تصميم وتطوير © فهد الفهيد | 2025</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
