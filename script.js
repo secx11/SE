@@ -165,9 +165,9 @@ if (equipmentLink) {
   });
 }
 
-// إرسال النموذج إلى Google Forms
+// إرسال النموذج إلى خادم وسيط
 if (submitFeedback) {
-  submitFeedback.onclick = function(e) {
+  submitFeedback.onclick = async function(e) {
     e.preventDefault();
     const type = feedbackType.value;
     const equipType = equipmentType.value;
@@ -197,25 +197,27 @@ if (submitFeedback) {
       return;
     }
 
-    // إرسال البيانات إلى Google Forms
-    const formData = new FormData();
-    formData.append("entry.1768981552", type);
-    formData.append("entry.1223622662", equipType);
-    formData.append("entry.507274621", code);
-    formData.append("entry.838611703", link);
-    formData.append("entry.826576113", reason);
-    formData.append("dlut", Date.now().toString()); // حقل الطابع الزمني
+    // إرسال البيانات إلى الخادم الوسيط
+    const proxyUrl = "https://se-zeta-nine.vercel.app/submit"; // استبدل هذا برابط الخادم الوسيط (مثل https://your-vercel-app.vercel.app/submit)
+    const formData = {
+      "entry.1768981552": type,
+      "entry.1223622662": equipType,
+      "entry.507274621": code,
+      "entry.838611703": link,
+      "entry.826576113": reason,
+      "dlut": Date.now().toString()
+    };
 
     try {
-      const response = await fetch("https://docs.google.com/forms/d/e/1FAIpQLSfBKCbDVJ-ju6LuwL7qKXP2L7cav0wWQVv99ojK2b_HWpdMFw/formResponse", {
+      const response = await fetch(proxyUrl, {
         method: "POST",
-        body: formData,
         headers: {
-          "Accept": "application/json"
-        }
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
       });
 
-      if (response.ok || response.type === "opaque") {
+      if (response.ok) {
         feedbackMsg.textContent = "تم إرسال الإدخال بنجاح!";
         feedbackMsg.className = "";
         equipmentType.value = "";
@@ -246,23 +248,9 @@ if (submitFeedback) {
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      feedbackMsg.textContent = "حدث خطأ أثناء الإرسال. تحقق من إعدادات النموذج أو الاتصال بالإنترنت.";
+      feedbackMsg.textContent = "حدث خطأ أثناء الإرسال. تحقق من الاتصال بالخادم الوسيط.";
       feedbackMsg.className = "error";
     }
-  };
-}
-
-    // تخزين احتياطي في localStorage
-    const feedbackList = JSON.parse(localStorage.getItem("feedbackList") || "[]");
-    feedbackList.push({
-      type,
-      equipmentType: equipType,
-      code,
-      link,
-      reason: type === "تصحيح" ? reason : "",
-      timestamp: new Date().toISOString()
-    });
-    localStorage.setItem("feedbackList", JSON.stringify(feedbackList));
   };
 }
 
