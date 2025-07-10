@@ -1,41 +1,48 @@
-<!DOCTYPE html>
+ </script><!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+  <!-- meta: ترميز النصوص لدعم العربية -->
   <meta charset="UTF-8">
+  <!-- meta: توافق الأجهزة -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>إدارة كهرباء القصيم - قسم التشغيل</title>
+  <!-- meta: وصف الصفحة لمحركات البحث -->
+  <meta name="description" content="صفحة قسم التشغيل لإدارة كهرباء القصيم، توفر تجربة رقمية متكاملة للوصول إلى المواقع.">
+  <!-- title: عنوان الصفحة -->
+  <title>صفحة التشغيل - إدارة كهرباء القصيم</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <!-- Google tag (gtag.js) -->
+  <script defer src="https://www.googletagmanager.com/gtag/js?id=G-FCJQ9RJQ0V"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-FCJQ9RJQ0V');
+  </script>
 </head>
 <body>
+  <!-- الهيدر -->
   <header>
-    <img src="logo.png" alt="شعار إدارة كهرباء القصيم">
-    <div class="nav-links">
-      <a href="index.html" class="operation-link">الصفحة الرئيسية</a>
+    <div class="logo">
+      <img src="https://www2.0zz0.com/2025/04/09/19/540933648.png" alt="شعار الموقع">
     </div>
-    <a href="feedback.html" class="feedback-icon" aria-label="تقديم ملاحظات و اقتراحات">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="#fff"/>
-      </svg>
-    </a>
+    <div class="nav-links">
+      <a href="index.html">إدارة كهرباء القصيم</a>
+      <a href="#">دائرة دعم العمليات والصيانة</a>
+      <a href="operations.html">قسم التشغيل</a>
+    </div>
   </header>
-  <main>
-    <div class="intro" aria-label="مقدمة عن قسم التشغيل">
+
+  <!-- قسم المقدمة -->
+  <section class="container">
+    <section class="intro">
       <h1>رسالة رئيس القسم</h1>
       <p>في إدارة كهرباء القصيم، نسعى جاهدين لتقديم تجربة رقمية متكاملة وسلسة من خلال صفحة قسم التشغيل. صُممت هذه الصفحة بعناية لتكون مرجعًا شاملًا يوفر الوصول السريع والسهل إلى مواقعنا عبر خرائط Google، مما يعزز الكفاءة ويسهل عمليات التشغيل والصيانة. نهدف إلى تمكين مستخدمينا من التنقل بثقة وسرعة، مع ضمان توفر كافة المعلومات الضرورية في واجهة بسيطة وجذابة.</p>
-    </div>
-    <section class="container">
-      <h1>ابحث عن موقع</h1>
-      <div class="search-box">
-        <input type="text" id="searchInput" placeholder="ابحث عن موقع..." aria-label="ابحث عن موقع RMU">
-        <div id="suggestions" class="suggestions"></div>
-      </div>
-      <div id="resultsContainer"></div>
     </section>
-  </main>
+  </section>
+
+  <!-- الفوتر -->
   <footer>
-    <p>تصميم وتطوير © فهد الفهيد | 2025</p>
+    <p>تصميم وتطوير© فهد الفهيد | 109096</p>
   </footer>
-  <script src="script.js"></script>
 </body>
 </html>
