@@ -139,7 +139,7 @@ function performSearch(searchTerm) {
 // إظهار/إخفاء حقل سبب التعديل في feedback.html و modal
 if (feedbackType) {
   feedbackType.addEventListener("change", function() {
-    if (this.value === "correction") {
+    if (this.value === "تصحيح") {
       correctionReason.style.display = "block";
       correctionReasonLabel.style.display = "block";
       correctionReason.required = true;
@@ -186,42 +186,51 @@ if (submitFeedback) {
       feedbackMsg.className = "error";
       return;
     }
-    if (type === "correction" && !reason) {
+    if (type === "تصحيح" && !reason) {
       feedbackMsg.textContent = "الرجاء إدخال سبب التعديل.";
+      feedbackMsg.className = "error";
+      return;
+    }
+    if (!link.includes("maps.app.goo.gl")) {
+      feedbackMsg.textContent = "الرجاء إدخال رابط خرائط Google صالح.";
       feedbackMsg.className = "error";
       return;
     }
 
     // إرسال البيانات إلى Google Forms
     const formData = new FormData();
-    formData.append("entry.1768981552", type); // استبدل بمعرف حقل نوع الإدخال
-    formData.append("entry.1223622662", equipType); // استبدل بمعرف حقل نوع المعدة
-    formData.append("entry.507274621", code); // استبدل بمعرف حقل رمز المعدة
-    formData.append("entry.838611703", link); // استبدل بمعرف حقل رابط خرائط Google
-    formData.append("entry.826576113", reason); // استبدل بمعرف حقل سبب التعديل
+    formData.append("entry.1768981552", type);
+    formData.append("entry.1223622662", equipType);
+    formData.append("entry.507274621", code);
+    formData.append("entry.838611703", link);
+    formData.append("entry.826576113", reason);
 
     fetch("https://docs.google.com/forms/d/e/1FAIpQLSfBKCbDVJ-ju6LuwL7qKXP2L7cav0wWQVv99ojK2b_HWpdMFw/formResponse", {
       method: "POST",
-      body: formData,
-      mode: "no-cors"
+      body: formData
     })
-      .then(() => {
-        feedbackMsg.textContent = "تم إرسال الإدخال بنجاح!";
-        feedbackMsg.className = "";
-        equipmentType.value = "";
-        equipmentCode.value = "";
-        equipmentLink.value = "";
-        correctionReason.value = "";
-        correctionReason.style.display = "none";
-        correctionReasonLabel.style.display = "none";
-        feedbackType.value = "addition";
-        setTimeout(() => {
-          feedbackMsg.textContent = "";
-          if (feedbackModal) feedbackModal.style.display = "none";
-        }, 3000);
+      .then(response => {
+        if (response.ok || response.type === "opaque") {
+          feedbackMsg.textContent = "تم إرسال الإدخال بنجاح!";
+          feedbackMsg.className = "";
+          equipmentType.value = "";
+          equipmentCode.value = "";
+          equipmentLink.value = "";
+          correctionReason.value = "";
+          correctionReason.style.display = "none";
+          correctionReasonLabel.style.display = "none";
+          feedbackType.value = "إضافة";
+          setTimeout(() => {
+            feedbackMsg.textContent = "";
+            if (feedbackModal) feedbackModal.style.display = "none";
+          }, 3000);
+        } else {
+          throw new Error("فشل إرسال النموذج");
+        }
       })
-      .catch(() => {
-        feedbackMsg.textContent = "حدث خطأ أثناء الإرسال. حاول مرة أخرى.";
+      .catch(error => {
+        console.error("Error:", error);
+        feedbackMsg.textContent = "حدث خطأ أثناء الإرسال. تأكد من إعدادات النموذج وحاول مرة أخرى.";
         feedbackMsg.className = "error";
       });
 
@@ -232,7 +241,7 @@ if (submitFeedback) {
       equipmentType: equipType,
       code,
       link,
-      reason: type === "correction" ? reason : "",
+      reason: type === "تصحيح" ? reason : "",
       timestamp: new Date().toISOString()
     });
     localStorage.setItem("feedbackList", JSON.stringify(feedbackList));
@@ -248,7 +257,7 @@ if (resetForm) {
     correctionReason.value = "";
     correctionReason.style.display = "none";
     correctionReasonLabel.style.display = "none";
-    feedbackType.value = "addition";
+    feedbackType.value = "إضافة";
     feedbackMsg.textContent = "تم إعادة تعيين النموذج.";
     feedbackMsg.className = "";
     setTimeout(() => {
