@@ -204,35 +204,53 @@ if (submitFeedback) {
     formData.append("entry.507274621", code);
     formData.append("entry.838611703", link);
     formData.append("entry.826576113", reason);
+    formData.append("dlut", Date.now().toString()); // حقل الطابع الزمني
 
-    fetch("https://docs.google.com/forms/d/e/1FAIpQLSfBKCbDVJ-ju6LuwL7qKXP2L7cav0wWQVv99ojK2b_HWpdMFw/formResponse", {
-      method: "POST",
-      body: formData
-    })
-      .then(response => {
-        if (response.ok || response.type === "opaque") {
-          feedbackMsg.textContent = "تم إرسال الإدخال بنجاح!";
-          feedbackMsg.className = "";
-          equipmentType.value = "";
-          equipmentCode.value = "";
-          equipmentLink.value = "";
-          correctionReason.value = "";
-          correctionReason.style.display = "none";
-          correctionReasonLabel.style.display = "none";
-          feedbackType.value = "إضافة";
-          setTimeout(() => {
-            feedbackMsg.textContent = "";
-            if (feedbackModal) feedbackModal.style.display = "none";
-          }, 3000);
-        } else {
-          throw new Error("فشل إرسال النموذج");
+    try {
+      const response = await fetch("https://docs.google.com/forms/d/e/1FAIpQLSfBKCbDVJ-ju6LuwL7qKXP2L7cav0wWQVv99ojK2b_HWpdMFw/formResponse", {
+        method: "POST",
+        body: formData,
+        headers: {
+          "Accept": "application/json"
         }
-      })
-      .catch(error => {
-        console.error("Error:", error);
-        feedbackMsg.textContent = "حدث خطأ أثناء الإرسال. تأكد من إعدادات النموذج وحاول مرة أخرى.";
-        feedbackMsg.className = "error";
       });
+
+      if (response.ok || response.type === "opaque") {
+        feedbackMsg.textContent = "تم إرسال الإدخال بنجاح!";
+        feedbackMsg.className = "";
+        equipmentType.value = "";
+        equipmentCode.value = "";
+        equipmentLink.value = "";
+        correctionReason.value = "";
+        correctionReason.style.display = "none";
+        correctionReasonLabel.style.display = "none";
+        feedbackType.value = "إضافة";
+        setTimeout(() => {
+          feedbackMsg.textContent = "";
+          if (feedbackModal) feedbackModal.style.display = "none";
+        }, 3000);
+
+        // تخزين احتياطي في localStorage
+        const feedbackList = JSON.parse(localStorage.getItem("feedbackList") || "[]");
+        feedbackList.push({
+          type,
+          equipmentType: equipType,
+          code,
+          link,
+          reason: type === "تصحيح" ? reason : "",
+          timestamp: new Date().toISOString()
+        });
+        localStorage.setItem("feedbackList", JSON.stringify(feedbackList));
+      } else {
+        throw new Error(`فشل الإرسال: ${response.status} ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      feedbackMsg.textContent = "حدث خطأ أثناء الإرسال. تحقق من إعدادات النموذج أو الاتصال بالإنترنت.";
+      feedbackMsg.className = "error";
+    }
+  };
+}
 
     // تخزين احتياطي في localStorage
     const feedbackList = JSON.parse(localStorage.getItem("feedbackList") || "[]");
